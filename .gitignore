@@ -2,3 +2,4 @@
 *.xcuserstate
 *.DS_Store
 KMNIST.xcodeproj/xcuserdata/*
+KMNIST.xcodeproj/project.xcworkspace/xcuserdata/*
