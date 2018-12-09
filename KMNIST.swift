@@ -19,8 +19,7 @@ struct KMNISTParameters : ParameterGroup {
 }
 
 @usableFromInline @inline(never)
-func trainingStep(_ x: Tensor<Float>, _ y_i: Tensor<Int32>, _ θ: KMNISTParameters) -> (Float, KMNISTParameters) {
-    let N = y_i.shape.contiguousSize
+func trainingStep(_ x: Tensor<Float>, _ y_i: Tensor<Int32>, _ θ: KMNISTParameters, returnGradient: Bool = true) -> (Float, KMNISTParameters) {
     let strides1: (Int32, Int32, Int32, Int32) = (1, 1, 1, 1)
     let strides2: (Int32, Int32, Int32, Int32) = (1, 2, 2, 1)
     let kernelSize5: (Int32, Int32, Int32, Int32) = (1, 5, 5, 1)
@@ -42,6 +41,8 @@ func trainingStep(_ x: Tensor<Float>, _ y_i: Tensor<Int32>, _ θ: KMNISTParamete
     let H = -Σ(p * log(q))
     let H_total = μ(H)
     
+    guard returnGradient else { return (H_total, θ) }
+    
     // Backpropagation
     let dz3 = q - p
     let dw3 = flat⊺ • dz3
@@ -62,15 +63,20 @@ func trainingStep(_ x: Tensor<Float>, _ y_i: Tensor<Int32>, _ θ: KMNISTParamete
 /// Starts training on KMNIST
 func startTrainingOnKMNIST() {
     let dataPath = "usr/share/man/man1/KMNIST/Data/"
-    let imagesFile = dataPath + "train-images-idx3-ubyte"
-    let labelsFile = dataPath + "train-labels-idx1-ubyte"
-
-    let dataset = readKMNIST(imagesFile: imagesFile, labelsFile: labelsFile)
-    
+    let trainingImagesFile = dataPath + "kmnist-train-imgs.npz"
+    let trainingLabelsFile = dataPath + "kmnist-train-labels.npz"
+    let testingImagesFile = dataPath + "kmnist-test-imgs.npz"
+    let testingLabelsFile = dataPath + "kmnist-test-labels.npz"
+    let batchSize = 128
     var θ = KMNISTParameters()
     let η: Float = 0.00075
-    for epochNumber in 0..<10 {
-        for (batchNumber, batch) in dataset.enumerated() {
+
+    let trainingDataset = readKMNIST(imagesFile: trainingImagesFile, labelsFile: trainingLabelsFile, batchSize: batchSize)
+    let testingBatch = readKMNIST(imagesFile: testingImagesFile, labelsFile: testingLabelsFile)[0]
+    
+    printDividerLine()
+    for epochNumber in 0..<16 {
+        for (batchNumber, batch) in trainingDataset.enumerated() {
             let x = batch.images
             let y_i = batch.labels
             let (H_total, dθ) = trainingStep(x, y_i, θ)
@@ -79,7 +85,13 @@ func startTrainingOnKMNIST() {
             θ.update(withGradients: dθ) { (θ_k, dθ_k) in θ_k -= η * dθ_k }
             
             if batchNumber % 10 == 0 {
-                print(String(format: "Epoch: %d Batch: %d Training Loss: %.5f Likelihood: %.5f", epochNumber, batchNumber, H_total, exp(-H_total)))
+                printTrainingLoss(epochNumber: epochNumber, batchNumber: batchNumber, H_total: H_total)
+            }
+            if batchNumber != 0, batchNumber % 200 == 0 || batchNumber == trainingDataset.count-1 {
+                printDividerLine()
+                let (H_test, _) = trainingStep(testingBatch.images, testingBatch.labels, θ, returnGradient: false)
+                printValidationLoss(epochNumber: epochNumber, batchNumber: batchNumber, H_test: H_test)
+                printDividerLine()
             }
         }
     }

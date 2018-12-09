@@ -7,11 +7,14 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3D47476B21BD98EB00282426 /* kmnist-test-imgs.npz in CopyFiles */ = {isa = PBXBuildFile; fileRef = 3D47476721BD988100282426 /* kmnist-test-imgs.npz */; };
+		3D47476C21BD98EB00282426 /* kmnist-test-labels.npz in CopyFiles */ = {isa = PBXBuildFile; fileRef = 3D47476A21BD988300282426 /* kmnist-test-labels.npz */; };
+		3D47476D21BD98EB00282426 /* kmnist-train-imgs.npz in CopyFiles */ = {isa = PBXBuildFile; fileRef = 3D47476921BD988300282426 /* kmnist-train-imgs.npz */; };
+		3D47476E21BD98EB00282426 /* kmnist-train-labels.npz in CopyFiles */ = {isa = PBXBuildFile; fileRef = 3D47476821BD988100282426 /* kmnist-train-labels.npz */; };
+		3D47477021BDB51C00282426 /* Print.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D47476F21BDB51C00282426 /* Print.swift */; };
 		3D8DD37A21BC433500255FBC /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D8DD37921BC433500255FBC /* main.swift */; };
 		3D8DD38921BC46FC00255FBC /* KMNIST.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D8DD38821BC46FC00255FBC /* KMNIST.swift */; };
 		3D8DD38D21BC49CD00255FBC /* Dataset.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D8DD38C21BC49CD00255FBC /* Dataset.swift */; };
-		3D8DD39221BC4ABF00255FBC /* train-images-idx3-ubyte in CopyFiles */ = {isa = PBXBuildFile; fileRef = 3D8DD39021BC4A9000255FBC /* train-images-idx3-ubyte */; };
-		3D8DD39321BC4ABF00255FBC /* train-labels-idx1-ubyte in CopyFiles */ = {isa = PBXBuildFile; fileRef = 3D8DD39121BC4A9000255FBC /* train-labels-idx1-ubyte */; };
 		3DCDA90521BC895B0048EAA3 /* libtensorflow_framework.so in Frameworks */ = {isa = PBXBuildFile; fileRef = 3DCDA90321BC895B0048EAA3 /* libtensorflow_framework.so */; };
 		3DCDA90621BC895B0048EAA3 /* libtensorflow.so in Frameworks */ = {isa = PBXBuildFile; fileRef = 3DCDA90421BC895B0048EAA3 /* libtensorflow.so */; };
 		3DCDA90921BC9D380048EAA3 /* Ops.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DCDA90721BC9D380048EAA3 /* Ops.swift */; };
@@ -26,20 +29,25 @@
 			dstPath = usr/share/man/man1/KMNIST/Data;
 			dstSubfolderSpec = 7;
 			files = (
-				3D8DD39221BC4ABF00255FBC /* train-images-idx3-ubyte in CopyFiles */,
-				3D8DD39321BC4ABF00255FBC /* train-labels-idx1-ubyte in CopyFiles */,
+				3D47476B21BD98EB00282426 /* kmnist-test-imgs.npz in CopyFiles */,
+				3D47476C21BD98EB00282426 /* kmnist-test-labels.npz in CopyFiles */,
+				3D47476D21BD98EB00282426 /* kmnist-train-imgs.npz in CopyFiles */,
+				3D47476E21BD98EB00282426 /* kmnist-train-labels.npz in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		3D47476721BD988100282426 /* kmnist-test-imgs.npz */ = {isa = PBXFileReference; lastKnownFileType = file; path = "kmnist-test-imgs.npz"; sourceTree = "<group>"; };
+		3D47476821BD988100282426 /* kmnist-train-labels.npz */ = {isa = PBXFileReference; lastKnownFileType = file; path = "kmnist-train-labels.npz"; sourceTree = "<group>"; };
+		3D47476921BD988300282426 /* kmnist-train-imgs.npz */ = {isa = PBXFileReference; lastKnownFileType = file; path = "kmnist-train-imgs.npz"; sourceTree = "<group>"; };
+		3D47476A21BD988300282426 /* kmnist-test-labels.npz */ = {isa = PBXFileReference; lastKnownFileType = file; path = "kmnist-test-labels.npz"; sourceTree = "<group>"; };
+		3D47476F21BDB51C00282426 /* Print.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Print.swift; sourceTree = "<group>"; };
 		3D8DD37621BC433500255FBC /* KMNIST */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = KMNIST; sourceTree = BUILT_PRODUCTS_DIR; };
 		3D8DD37921BC433500255FBC /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		3D8DD38821BC46FC00255FBC /* KMNIST.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KMNIST.swift; sourceTree = "<group>"; };
 		3D8DD38C21BC49CD00255FBC /* Dataset.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dataset.swift; sourceTree = "<group>"; };
-		3D8DD39021BC4A9000255FBC /* train-images-idx3-ubyte */ = {isa = PBXFileReference; lastKnownFileType = file; path = "train-images-idx3-ubyte"; sourceTree = "<group>"; };
-		3D8DD39121BC4A9000255FBC /* train-labels-idx1-ubyte */ = {isa = PBXFileReference; lastKnownFileType = file; path = "train-labels-idx1-ubyte"; sourceTree = "<group>"; };
 		3DCDA90321BC895B0048EAA3 /* libtensorflow_framework.so */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libtensorflow_framework.so; path = "../../../../../Library/Developer/Toolchains/swift-tensorflow-DEVELOPMENT-2018-12-04-a.xctoolchain/usr/lib/swift/macosx/libtensorflow_framework.so"; sourceTree = "<group>"; };
 		3DCDA90421BC895B0048EAA3 /* libtensorflow.so */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libtensorflow.so; path = "../../../../../Library/Developer/Toolchains/swift-tensorflow-DEVELOPMENT-2018-12-04-a.xctoolchain/usr/lib/swift/macosx/libtensorflow.so"; sourceTree = "<group>"; };
 		3DCDA90721BC9D380048EAA3 /* Ops.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Ops.swift; sourceTree = "<group>"; };
@@ -100,8 +108,10 @@
 		3D8DD38721BC46CB00255FBC /* Data */ = {
 			isa = PBXGroup;
 			children = (
-				3D8DD39021BC4A9000255FBC /* train-images-idx3-ubyte */,
-				3D8DD39121BC4A9000255FBC /* train-labels-idx1-ubyte */,
+				3D47476721BD988100282426 /* kmnist-test-imgs.npz */,
+				3D47476A21BD988300282426 /* kmnist-test-labels.npz */,
+				3D47476921BD988300282426 /* kmnist-train-imgs.npz */,
+				3D47476821BD988100282426 /* kmnist-train-labels.npz */,
 			);
 			path = Data;
 			sourceTree = "<group>";
@@ -112,6 +122,7 @@
 				3DCDA90821BC9D380048EAA3 /* MathSymbols.swift */,
 				3DCDA90721BC9D380048EAA3 /* Ops.swift */,
 				3DCDA90B21BC9D7E0048EAA3 /* TensorInitializers.swift */,
+				3D47476F21BDB51C00282426 /* Print.swift */,
 				3D8DD38C21BC49CD00255FBC /* Dataset.swift */,
 			);
 			path = Utilities;
@@ -176,6 +187,7 @@
 			files = (
 				3D8DD38D21BC49CD00255FBC /* Dataset.swift in Sources */,
 				3DCDA90C21BC9D7E0048EAA3 /* TensorInitializers.swift in Sources */,
+				3D47477021BDB51C00282426 /* Print.swift in Sources */,
 				3D8DD37A21BC433500255FBC /* main.swift in Sources */,
 				3DCDA90A21BC9D380048EAA3 /* MathSymbols.swift in Sources */,
 				3DCDA90921BC9D380048EAA3 /* Ops.swift in Sources */,

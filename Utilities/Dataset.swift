@@ -10,19 +10,19 @@ import Python
 import TensorFlow
 
 /// Reads numpy file
-func readFile(_ filename: String) -> [UInt8] {
-    let data = Python.open(filename, "rb").read()
-    return Array(numpyArray: np.frombuffer(data, dtype: np.uint8))!
+func readFile<Scalar: NumpyScalarCompatible>(_ filename: String) -> [Scalar] {
+    let data = np.load(filename)["arr_0"]
+    return Array(numpyArray: data.flatten().astype(Scalar.ctype))!
 }
 
 /// Reads KMNIST images and labels from specified file paths.
 @inline(never)
-func readKMNIST(imagesFile: String, labelsFile: String, height: Int32 = 28, width: Int32 = 28, channels: Int32 = 1) -> [(images: Tensor<Float>, labels: Tensor<Int32>)] {
+func readKMNIST(imagesFile: String, labelsFile: String, batchSize: Int? = nil, height: Int32 = 28, width: Int32 = 28, channels: Int32 = 1) -> [(images: Tensor<Float>, labels: Tensor<Int32>)] {
     print("Reading data.")
-    var images = readFile(imagesFile).dropFirst(16).map { Float($0) / 255 }
-    var labels = readFile(labelsFile).dropFirst(8).map { Int32($0) }
+    let pixels: [Float] = readFile(imagesFile)
+    let labels: [Int32] = readFile(labelsFile)
     let epochSize = labels.count
-    let batchSize = 100
+    let batchSize = batchSize ?? epochSize
     let batchCount = (epochSize + batchSize - 1) / batchSize
     
     let imageBatchSize = batchSize * Int(height * width * channels)
@@ -32,13 +32,13 @@ func readKMNIST(imagesFile: String, labelsFile: String, height: Int32 = 28, widt
     var dataset = [(Tensor<Float>, Tensor<Int32>)]()
     for i in 0..<Int(batchCount) {
         let imageBatchRangeStart = i * imageBatchSize
-        let imageBatchRangeEnd = min(images.count, imageBatchRangeStart + imageBatchSize)
+        let imageBatchRangeEnd = min(pixels.count, imageBatchRangeStart + imageBatchSize)
         let labelBatchRangeStart = i * labelBatchSize
         let labelBatchRangeEnd = min(labels.count, labelBatchRangeStart + labelBatchSize)
         let currentBatchSize = Int32(labelBatchRangeEnd - labelBatchRangeStart)
         
-        let imageBatch = Array(images[imageBatchRangeStart..<imageBatchRangeEnd])
-        let imageBatchShaped = Tensor(shape: [currentBatchSize, height, width, channels], scalars: imageBatch)
+        let imageBatch = Array(pixels[imageBatchRangeStart..<imageBatchRangeEnd])
+        let imageBatchShaped = Tensor(shape: [currentBatchSize, height, width, channels], scalars: imageBatch) / 255
         let labelBatch = Array(labels[labelBatchRangeStart..<labelBatchRangeEnd])
         let labelBatchShaped = Tensor(shape: [currentBatchSize], scalars: labelBatch)
         dataset.append((imageBatchShaped, labelBatchShaped))
