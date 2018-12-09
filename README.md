@@ -1,6 +1,15 @@
 # Training A Convolutional Neural Network On KMNIST
-
 Download the dataset here: [KMNIST Dataset](https://github.com/rois-codh/kmnist)
+
+#### Requirements
+* macOS 10.13.5 or later, with Xcode 10.0 or later; OR
+* Ubuntu 16.04 (64-bit); OR
+* other operating systems may work, but you will have to build Swift from
+  sources.
+
+This repository contains TensorFlow models written in Swift.
+
+The `stable` branch works with the latest [Swift for TensorFlow prebuilt packages](https://github.com/tensorflow/swift/blob/master/Installation.md#pre-built-packages).
 
 #### Model
 ```swift
