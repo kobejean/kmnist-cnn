@@ -22,7 +22,7 @@ func readKMNIST(imagesFile: String, labelsFile: String, height: Int32 = 28, widt
     var images = readFile(imagesFile).dropFirst(16).map { Float($0) / 255 }
     var labels = readFile(labelsFile).dropFirst(8).map { Int32($0) }
     let epochSize = labels.count
-    let batchSize = 150
+    let batchSize = 100
     let batchCount = (epochSize + batchSize - 1) / batchSize
     
     let imageBatchSize = batchSize * Int(height * width * channels)

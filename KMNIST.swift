@@ -12,9 +12,9 @@ import Foundation
 /// Parameters of an MNIST classifier.
 @usableFromInline
 struct KMNISTParameters : ParameterGroup {
-    var k1 = Tensor<Float>(glorotUniform: [5, 5, 1, 8])
-    var k2 = Tensor<Float>(glorotUniform: [5, 5, 8, 16])
-    var w3 = Tensor<Float>(glorotUniform: [Int32(7*7*16), 10])
+    var k1 = Tensor<Float>(glorotUniform: [5, 5, 1, 32])
+    var k2 = Tensor<Float>(glorotUniform: [5, 5, 32, 64])
+    var w3 = Tensor<Float>(glorotUniform: [Int32(7*7*64), 10])
     var b3 = Tensor<Float>(zeros: [10])
 }
 
@@ -32,7 +32,7 @@ func trainingStep(_ x: Tensor<Float>, _ y_i: Tensor<Int32>, _ θ: KMNISTParamete
     let c2 = m1.convolved2D(withFilter: θ.k2, strides: strides1, padding: .same)
     let h2 = relu(c2)
     let m2 = h2.maxPooled(kernelSize: kernelSize5, strides: strides2, padding: .same)
-    let flat = m2.reshaped(to: [-1, Int32(7*7*16)])
+    let flat = m2.reshaped(to: [-1, Int32(7*7*64)])
     let z3 = flat • θ.w3 + θ.b3
     let h3 = softmax(z3, alongAxis: -1)
     
@@ -68,19 +68,18 @@ func startTrainingOnKMNIST() {
     let dataset = readKMNIST(imagesFile: imagesFile, labelsFile: labelsFile)
     
     var θ = KMNISTParameters()
-    let η: Float = 0.0005
-    for i in 0..<10 {
-        for (j, batch) in dataset.enumerated() {
+    let η: Float = 0.00075
+    for epochNumber in 0..<10 {
+        for (batchNumber, batch) in dataset.enumerated() {
             let x = batch.images
             let y_i = batch.labels
             let (H_total, dθ) = trainingStep(x, y_i, θ)
+            
             // Update gradients
             θ.update(withGradients: dθ) { (θ_k, dθ_k) in θ_k -= η * dθ_k }
             
-            if j % 10 == 0 {
-                // Print Loss and likelihood
-                let k = j * 150
-                print(String(format: "Epoch: %d Batch: %d Example: %d Training Loss: %.5f Likelihood: %.5f", i, j, k, H_total, exp(-H_total)))
+            if batchNumber % 10 == 0 {
+                print(String(format: "Epoch: %d Batch: %d Training Loss: %.5f Likelihood: %.5f", epochNumber, batchNumber, H_total, exp(-H_total)))
             }
         }
     }
