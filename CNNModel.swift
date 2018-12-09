@@ -1,6 +1,6 @@
 //
-//  KMNIST.swift
-//  KMNIST
+//  CNNModel.swift
+//  CNNModel
 //
 //  Created by Jean Flaherty on 12/8/18.
 //  Copyright © 2018 Jean Flaherty. All rights reserved.
@@ -11,7 +11,7 @@ import Foundation
 
 /// Parameters of an MNIST classifier.
 @usableFromInline
-struct KMNISTParameters : ParameterGroup {
+struct CNNParameters : ParameterGroup {
     var k1 = Tensor<Float>(glorotUniform: [5, 5, 1, 32])
     var k2 = Tensor<Float>(glorotUniform: [5, 5, 32, 64])
     var w3 = Tensor<Float>(glorotUniform: [Int32(7*7*64), 10])
@@ -19,7 +19,7 @@ struct KMNISTParameters : ParameterGroup {
 }
 
 @usableFromInline @inline(never)
-func trainingStep(_ x: Tensor<Float>, _ y_i: Tensor<Int32>, _ θ: KMNISTParameters, returnGradient: Bool = true) -> (Float, KMNISTParameters) {
+func trainingStep(_ x: Tensor<Float>, _ y_i: Tensor<Int32>, _ θ: CNNParameters, returnGradient: Bool = true) -> (Float, CNNParameters) {
     let strides1: (Int32, Int32, Int32, Int32) = (1, 1, 1, 1)
     let strides2: (Int32, Int32, Int32, Int32) = (1, 2, 2, 1)
     let kernelSize5: (Int32, Int32, Int32, Int32) = (1, 5, 5, 1)
@@ -56,19 +56,19 @@ func trainingStep(_ x: Tensor<Float>, _ y_i: Tensor<Int32>, _ θ: KMNISTParamete
     let dc1 = #adjoint(relu)(c1, originalValue: h1, seed: dh1)
     let (_, dk1) = #adjoint(Tensor<Float>.convolved2D)(x)(filter: θ.k1, strides: strides1, padding: .same, originalValue: c1, seed: dc1)
     
-    let dθ = KMNISTParameters(k1: dk1, k2: dk2, w3: dw3, b3: db3)
+    let dθ = CNNParameters(k1: dk1, k2: dk2, w3: dw3, b3: db3)
     return (H_total, dθ)
 }
 
 /// Starts training on KMNIST
 func startTrainingOnKMNIST() {
-    let dataPath = "usr/share/man/man1/KMNIST/Data/"
+    let dataPath = "usr/share/man/man1/kmnist/Data/"
     let trainingImagesFile = dataPath + "kmnist-train-imgs.npz"
     let trainingLabelsFile = dataPath + "kmnist-train-labels.npz"
     let testingImagesFile = dataPath + "kmnist-test-imgs.npz"
     let testingLabelsFile = dataPath + "kmnist-test-labels.npz"
     let batchSize = 128
-    var θ = KMNISTParameters()
+    var θ = CNNParameters()
     let η: Float = 0.00075
 
     let trainingDataset = readKMNIST(imagesFile: trainingImagesFile, labelsFile: trainingLabelsFile, batchSize: batchSize)

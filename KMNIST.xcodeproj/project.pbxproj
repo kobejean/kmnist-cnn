@@ -13,7 +13,7 @@
 		3D47476E21BD98EB00282426 /* kmnist-train-labels.npz in CopyFiles */ = {isa = PBXBuildFile; fileRef = 3D47476821BD988100282426 /* kmnist-train-labels.npz */; };
 		3D47477021BDB51C00282426 /* Print.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D47476F21BDB51C00282426 /* Print.swift */; };
 		3D8DD37A21BC433500255FBC /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D8DD37921BC433500255FBC /* main.swift */; };
-		3D8DD38921BC46FC00255FBC /* KMNIST.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D8DD38821BC46FC00255FBC /* KMNIST.swift */; };
+		3D8DD38921BC46FC00255FBC /* CNNModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D8DD38821BC46FC00255FBC /* CNNModel.swift */; };
 		3D8DD38D21BC49CD00255FBC /* Dataset.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D8DD38C21BC49CD00255FBC /* Dataset.swift */; };
 		3DCDA90521BC895B0048EAA3 /* libtensorflow_framework.so in Frameworks */ = {isa = PBXBuildFile; fileRef = 3DCDA90321BC895B0048EAA3 /* libtensorflow_framework.so */; };
 		3DCDA90621BC895B0048EAA3 /* libtensorflow.so in Frameworks */ = {isa = PBXBuildFile; fileRef = 3DCDA90421BC895B0048EAA3 /* libtensorflow.so */; };
@@ -26,7 +26,7 @@
 		3D8DD37421BC433500255FBC /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 12;
-			dstPath = usr/share/man/man1/KMNIST/Data;
+			dstPath = usr/share/man/man1/kmnist/Data;
 			dstSubfolderSpec = 7;
 			files = (
 				3D47476B21BD98EB00282426 /* kmnist-test-imgs.npz in CopyFiles */,
@@ -44,9 +44,9 @@
 		3D47476921BD988300282426 /* kmnist-train-imgs.npz */ = {isa = PBXFileReference; lastKnownFileType = file; path = "kmnist-train-imgs.npz"; sourceTree = "<group>"; };
 		3D47476A21BD988300282426 /* kmnist-test-labels.npz */ = {isa = PBXFileReference; lastKnownFileType = file; path = "kmnist-test-labels.npz"; sourceTree = "<group>"; };
 		3D47476F21BDB51C00282426 /* Print.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Print.swift; sourceTree = "<group>"; };
-		3D8DD37621BC433500255FBC /* KMNIST */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = KMNIST; sourceTree = BUILT_PRODUCTS_DIR; };
+		3D8DD37621BC433500255FBC /* kmnist */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = kmnist; sourceTree = BUILT_PRODUCTS_DIR; };
 		3D8DD37921BC433500255FBC /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
-		3D8DD38821BC46FC00255FBC /* KMNIST.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KMNIST.swift; sourceTree = "<group>"; };
+		3D8DD38821BC46FC00255FBC /* CNNModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CNNModel.swift; sourceTree = "<group>"; };
 		3D8DD38C21BC49CD00255FBC /* Dataset.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dataset.swift; sourceTree = "<group>"; };
 		3DCDA90321BC895B0048EAA3 /* libtensorflow_framework.so */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libtensorflow_framework.so; path = "../../../../../Library/Developer/Toolchains/swift-tensorflow-DEVELOPMENT-2018-12-04-a.xctoolchain/usr/lib/swift/macosx/libtensorflow_framework.so"; sourceTree = "<group>"; };
 		3DCDA90421BC895B0048EAA3 /* libtensorflow.so */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libtensorflow.so; path = "../../../../../Library/Developer/Toolchains/swift-tensorflow-DEVELOPMENT-2018-12-04-a.xctoolchain/usr/lib/swift/macosx/libtensorflow.so"; sourceTree = "<group>"; };
@@ -80,7 +80,7 @@
 		3D8DD37721BC433500255FBC /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				3D8DD37621BC433500255FBC /* KMNIST */,
+				3D8DD37621BC433500255FBC /* kmnist */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -89,7 +89,7 @@
 			isa = PBXGroup;
 			children = (
 				3D8DD37921BC433500255FBC /* main.swift */,
-				3D8DD38821BC46FC00255FBC /* KMNIST.swift */,
+				3D8DD38821BC46FC00255FBC /* CNNModel.swift */,
 				3D8DD38B21BC48D200255FBC /* Utilities */,
 				3D8DD38721BC46CB00255FBC /* Data */,
 			);
@@ -131,9 +131,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		3D8DD37521BC433500255FBC /* KMNIST */ = {
+		3D8DD37521BC433500255FBC /* kmnist */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 3D8DD37D21BC433500255FBC /* Build configuration list for PBXNativeTarget "KMNIST" */;
+			buildConfigurationList = 3D8DD37D21BC433500255FBC /* Build configuration list for PBXNativeTarget "kmnist" */;
 			buildPhases = (
 				3D8DD37221BC433500255FBC /* Sources */,
 				3D8DD37321BC433500255FBC /* Frameworks */,
@@ -143,9 +143,9 @@
 			);
 			dependencies = (
 			);
-			name = KMNIST;
+			name = kmnist;
 			productName = KMNIST;
-			productReference = 3D8DD37621BC433500255FBC /* KMNIST */;
+			productReference = 3D8DD37621BC433500255FBC /* kmnist */;
 			productType = "com.apple.product-type.tool";
 		};
 /* End PBXNativeTarget section */
@@ -175,7 +175,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				3D8DD37521BC433500255FBC /* KMNIST */,
+				3D8DD37521BC433500255FBC /* kmnist */,
 			);
 		};
 /* End PBXProject section */
@@ -191,7 +191,7 @@
 				3D8DD37A21BC433500255FBC /* main.swift in Sources */,
 				3DCDA90A21BC9D380048EAA3 /* MathSymbols.swift in Sources */,
 				3DCDA90921BC9D380048EAA3 /* Ops.swift in Sources */,
-				3D8DD38921BC46FC00255FBC /* KMNIST.swift in Sources */,
+				3D8DD38921BC46FC00255FBC /* CNNModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -321,6 +321,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = Q74A2VY23K;
 				FRAMEWORK_SEARCH_PATHS = "";
+				INFOPLIST_FILE = "$(SRCROOT)/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "/Library/Developer/Toolchains/swift-latest/usr/lib/swift/macosx";
 				OTHER_LDFLAGS = "-lpython";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -335,6 +336,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = Q74A2VY23K;
 				FRAMEWORK_SEARCH_PATHS = "";
+				INFOPLIST_FILE = "$(SRCROOT)/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "/Library/Developer/Toolchains/swift-latest/usr/lib/swift/macosx";
 				OTHER_LDFLAGS = "-lpython";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -354,7 +356,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		3D8DD37D21BC433500255FBC /* Build configuration list for PBXNativeTarget "KMNIST" */ = {
+		3D8DD37D21BC433500255FBC /* Build configuration list for PBXNativeTarget "kmnist" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				3D8DD37E21BC433500255FBC /* Debug */,
