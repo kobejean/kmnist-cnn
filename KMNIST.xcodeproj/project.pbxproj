@@ -20,6 +20,7 @@
 		3DCDA90921BC9D380048EAA3 /* Ops.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DCDA90721BC9D380048EAA3 /* Ops.swift */; };
 		3DCDA90A21BC9D380048EAA3 /* MathSymbols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DCDA90821BC9D380048EAA3 /* MathSymbols.swift */; };
 		3DCDA90C21BC9D7E0048EAA3 /* TensorInitializers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DCDA90B21BC9D7E0048EAA3 /* TensorInitializers.swift */; };
+		3DF8877C21BE393F0000611F /* AdamOptimizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DF8877B21BE393F0000611F /* AdamOptimizer.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -53,6 +54,7 @@
 		3DCDA90721BC9D380048EAA3 /* Ops.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Ops.swift; sourceTree = "<group>"; };
 		3DCDA90821BC9D380048EAA3 /* MathSymbols.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MathSymbols.swift; sourceTree = "<group>"; };
 		3DCDA90B21BC9D7E0048EAA3 /* TensorInitializers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TensorInitializers.swift; sourceTree = "<group>"; };
+		3DF8877B21BE393F0000611F /* AdamOptimizer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdamOptimizer.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -124,6 +126,7 @@
 				3DCDA90B21BC9D7E0048EAA3 /* TensorInitializers.swift */,
 				3D47476F21BDB51C00282426 /* Print.swift */,
 				3D8DD38C21BC49CD00255FBC /* Dataset.swift */,
+				3DF8877B21BE393F0000611F /* AdamOptimizer.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -189,6 +192,7 @@
 				3DCDA90C21BC9D7E0048EAA3 /* TensorInitializers.swift in Sources */,
 				3D47477021BDB51C00282426 /* Print.swift in Sources */,
 				3D8DD37A21BC433500255FBC /* main.swift in Sources */,
+				3DF8877C21BE393F0000611F /* AdamOptimizer.swift in Sources */,
 				3DCDA90A21BC9D380048EAA3 /* MathSymbols.swift in Sources */,
 				3DCDA90921BC9D380048EAA3 /* Ops.swift in Sources */,
 				3D8DD38921BC46FC00255FBC /* CNNModel.swift in Sources */,

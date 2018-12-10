@@ -1,6 +1,6 @@
 //
-//  File.swift
-//  Iris
+//  Ops.swift
+//  kmnist
 //
 //  Created by Jean Flaherty on 12/1/18.
 //  Copyright © 2018 Jean Flaherty. All rights reserved.

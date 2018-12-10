@@ -1,6 +1,6 @@
 //
 //  MathSymbols.swift
-//  Iris
+//  kmnist
 //
 //  Created by Jean Flaherty on 12/8/18.
 //  Copyright © 2018 Jean Flaherty. All rights reserved.
@@ -13,6 +13,8 @@ import TensorFlow
 @inlinable @inline(__always) func μ(_ x: Tensor<Float>) -> Float { return x.mean() }
 @inlinable @inline(__always) func e_i(_ x: Tensor<Int32>, _ n: Int32) -> Tensor<Float> { return oneHot(indices: x, depth: n, onValue: 1, offValue: 0) }
 postfix operator ⊺
+prefix operator √
 extension Tensor where Scalar == Float {
     @inlinable @inline(__always) static postfix func ⊺ (lhs: Tensor) -> Tensor { return lhs.transposed() }
+    @inlinable @inline(__always) static prefix func √ (rhs: Tensor) -> Tensor { return sqrt(rhs) }
 }

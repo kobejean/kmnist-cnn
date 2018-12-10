@@ -1,6 +1,6 @@
 //
 //  CNNModel.swift
-//  CNNModel
+//  kmnist
 //
 //  Created by Jean Flaherty on 12/8/18.
 //  Copyright © 2018 Jean Flaherty. All rights reserved.
@@ -19,7 +19,7 @@ struct CNNParameters : ParameterGroup {
 }
 
 @usableFromInline @inline(never)
-func trainingStep(_ x: Tensor<Float>, _ y_i: Tensor<Int32>, _ θ: CNNParameters, returnGradient: Bool = true) -> (Float, CNNParameters) {
+func lossAndGradient(_ x: Tensor<Float>, _ y_i: Tensor<Int32>, _ θ: CNNParameters, returnGradient: Bool = true) -> (Float, CNNParameters) {
     let strides1: (Int32, Int32, Int32, Int32) = (1, 1, 1, 1)
     let strides2: (Int32, Int32, Int32, Int32) = (1, 2, 2, 1)
     let kernelSize5: (Int32, Int32, Int32, Int32) = (1, 5, 5, 1)
@@ -67,11 +67,18 @@ func startTrainingOnKMNIST() {
     let trainingLabelsFile = dataPath + "kmnist-train-labels.npz"
     let testingImagesFile = dataPath + "kmnist-test-imgs.npz"
     let testingLabelsFile = dataPath + "kmnist-test-labels.npz"
+    
     let batchSize = 128
     var θ = CNNParameters()
-    let η: Float = 0.00075
+    let α: Float = 0.001
+    let βm: Float = 0.9
+    let βv: Float = 0.999
+    let ϵ: Float = 1e-08
+    let adam = AdamOptimizer(θ,α,βm,βv,ϵ)
 
+    print("Load training data.")
     let trainingDataset = readKMNIST(imagesFile: trainingImagesFile, labelsFile: trainingLabelsFile, batchSize: batchSize)
+    print("Load validation data.")
     let testingBatch = readKMNIST(imagesFile: testingImagesFile, labelsFile: testingLabelsFile)[0]
     
     printDividerLine()
@@ -79,17 +86,16 @@ func startTrainingOnKMNIST() {
         for (batchNumber, batch) in trainingDataset.enumerated() {
             let x = batch.images
             let y_i = batch.labels
-            let (H_total, dθ) = trainingStep(x, y_i, θ)
             
-            // Update gradients
-            θ.update(withGradients: dθ) { (θ_k, dθ_k) in θ_k -= η * dθ_k }
+            let (H_total, dθ) = lossAndGradient(x, y_i, θ)
+            adam.optimize(&θ,dθ)
             
             if batchNumber % 10 == 0 {
                 printTrainingLoss(epochNumber: epochNumber, batchNumber: batchNumber, H_total: H_total)
             }
             if batchNumber != 0, batchNumber % 200 == 0 || batchNumber == trainingDataset.count-1 {
                 printDividerLine()
-                let (H_test, _) = trainingStep(testingBatch.images, testingBatch.labels, θ, returnGradient: false)
+                let (H_test, _) = lossAndGradient(testingBatch.images, testingBatch.labels, θ, returnGradient: false)
                 printValidationLoss(epochNumber: epochNumber, batchNumber: batchNumber, H_test: H_test)
                 printDividerLine()
             }
