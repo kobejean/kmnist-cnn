@@ -77,12 +77,13 @@ func startTrainingOnKMNIST() {
     let adam = AdamOptimizer(θ,α,βm,βv,ϵ)
 
     print("Load training data.")
-    let trainingDataset = readKMNIST(imagesFile: trainingImagesFile, labelsFile: trainingLabelsFile, batchSize: batchSize)
+    var trainingDataset = readKMNIST(imagesFile: trainingImagesFile, labelsFile: trainingLabelsFile, batchSize: batchSize)
     print("Load validation data.")
     let testingBatch = readKMNIST(imagesFile: testingImagesFile, labelsFile: testingLabelsFile)[0]
     
     printDividerLine()
-    for epochNumber in 0..<16 {
+    for epochNumber in 0..<256 {
+        trainingDataset.shuffle()
         for (batchNumber, batch) in trainingDataset.enumerated() {
             let x = batch.images
             let y_i = batch.labels
