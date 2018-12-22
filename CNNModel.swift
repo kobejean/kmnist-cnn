@@ -37,8 +37,8 @@ func lossAndGradient(_ x: Tensor<Float>, _ y_i: Tensor<Int32>, _ θ: CNNParamete
     
     // Evaluation
     let q = h3
-    let p = e_i(y_i, 10)
-    let H = -Σ(p * log(q))
+    let p: Tensor<Float> = e_i(y_i, 10)
+    let H = ∑(p * -log(q))
     let H_total = μ(H)
     
     guard returnGradient else { return (H_total, θ) }
@@ -46,15 +46,15 @@ func lossAndGradient(_ x: Tensor<Float>, _ y_i: Tensor<Int32>, _ θ: CNNParamete
     // Backpropagation
     let dz3 = q - p
     let dw3 = flat⊺ • dz3
-    let db3 = Σ(dz3,0)
+    let db3 = dz3.sum(squeezingAxes: 0)
     let dflat = dz3 • θ.w3⊺
-    let dm2 = #adjoint(Tensor.reshaped)(m2)(toShape: flat.shapeTensor, originalValue: flat, seed: dflat)
-    let dh2 = #adjoint(Tensor.maxPooled)(h2)(kernelSize: kernelSize5, strides: strides2, padding: .same, originalValue: m2, seed: dm2)
-    let dc2 = #adjoint(relu)(c2, originalValue: h2, seed: dh2)
-    let (dm1, dk2) = #adjoint(Tensor<Float>.convolved2D)(m1)(filter: θ.k2, strides: strides1, padding: .same, originalValue: c2, seed: dc2)
-    let dh1 = #adjoint(Tensor.maxPooled)(h1)(kernelSize: kernelSize5, strides: strides2, padding: .same, originalValue: m1, seed: dm1)
-    let dc1 = #adjoint(relu)(c1, originalValue: h1, seed: dh1)
-    let (_, dk1) = #adjoint(Tensor<Float>.convolved2D)(x)(filter: θ.k1, strides: strides1, padding: .same, originalValue: c1, seed: dc1)
+    let dm2 = #adjoint(Tensor.reshaped)(m2)(seed: dflat, originalValue: flat, toShape: flat.shapeTensor)
+    let dh2 = #adjoint(Tensor.maxPooled)(h2)(seed: dm2, originalValue: m2, kernelSize: kernelSize5, strides: strides2, padding: .same)
+    let dc2 = #adjoint(relu)(dh2, h2, c2)
+    let (dm1, dk2) = #adjoint(Tensor<Float>.convolved2D)(m1)(seed: dc2, originalValue: c2, filter: θ.k2, strides: strides1, padding: .same)
+    let dh1 = #adjoint(Tensor.maxPooled)(h1)(seed: dm1, originalValue: m1, kernelSize: kernelSize5, strides: strides2, padding: .same)
+    let dc1 = #adjoint(relu)(dh1, h1, c1)
+    let (_, dk1) = #adjoint(Tensor<Float>.convolved2D)(x)(seed: dc1, originalValue: c1, filter: θ.k1, strides: strides1, padding: .same)
     
     let dθ = CNNParameters(k1: dk1, k2: dk2, w3: dw3, b3: db3)
     return (H_total, dθ)
