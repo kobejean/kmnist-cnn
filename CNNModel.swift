@@ -11,19 +11,30 @@ import Foundation
 
 /// Parameters of an MNIST classifier.
 @usableFromInline
-struct CNNParameters : ParameterGroup {
-    var k1 = Tensor<Float>(glorotUniform: [5, 5, 1, 32])
-    var k2 = Tensor<Float>(glorotUniform: [5, 5, 32, 64])
-    var w3 = Tensor<Float>(glorotUniform: [Int32(7*7*64), 10])
-    var b3 = Tensor<Float>(zeros: [10])
+struct CNNParameters : Parameterized {
+//    public typealias TangentVector = CNNParameters
+//    public typealias CotangentVector = CNNParameters
+    
+    @TFParameter @usableFromInline var k1 = Tensor<Float>(glorotUniform: [5, 5, 1, 32])
+    @TFParameter @usableFromInline var k2 = Tensor<Float>(glorotUniform: [5, 5, 32, 64])
+    @TFParameter @usableFromInline var w3 = Tensor<Float>(glorotUniform: [Int32(7*7*64), 10])
+    @TFParameter @usableFromInline var b3 = Tensor<Float>(zeros: [10])
+    
+//    func moved(along direction: CNNParameters) -> CNNParameters {
+//        return self + direction
+//    }
+//
+//    func tangentVector(from cotangent: CNNParameters) -> CNNParameters {
+//        return cotangent
+//    }
 }
 
-@usableFromInline @inline(never)
+@usableFromInline
 func lossAndGradient(_ x: Tensor<Float>, _ y_i: Tensor<Int32>, _ θ: CNNParameters, returnGradient: Bool = true) -> (Float, CNNParameters) {
     let strides1: (Int32, Int32, Int32, Int32) = (1, 1, 1, 1)
     let strides2: (Int32, Int32, Int32, Int32) = (1, 2, 2, 1)
     let kernelSize5: (Int32, Int32, Int32, Int32) = (1, 5, 5, 1)
-    
+
     // Inferance
     let c1 = x.convolved2D(withFilter: θ.k1, strides: strides1, padding: .same)
     let h1 = relu(c1)
@@ -34,30 +45,30 @@ func lossAndGradient(_ x: Tensor<Float>, _ y_i: Tensor<Int32>, _ θ: CNNParamete
     let flat = m2.reshaped(to: [-1, Int32(7*7*64)])
     let z3 = flat • θ.w3 + θ.b3
     let h3 = softmax(z3, alongAxis: -1)
-    
+
     // Evaluation
     let q = h3
     let p: Tensor<Float> = e_i(y_i, 10)
     let H = ∑(p * -log(q))
     let H_total = μ(H)
-    
-    guard returnGradient else { return (H_total, θ) }
-    
-    // Backpropagation
-    let dz3 = q - p
-    let dw3 = flat⊺ • dz3
-    let db3 = dz3.sum(squeezingAxes: 0)
-    let dflat = dz3 • θ.w3⊺
-    let dm2 = #adjoint(Tensor.reshaped)(m2)(seed: dflat, originalValue: flat, toShape: flat.shapeTensor)
-    let dh2 = #adjoint(Tensor.maxPooled)(h2)(seed: dm2, originalValue: m2, kernelSize: kernelSize5, strides: strides2, padding: .same)
-    let dc2 = #adjoint(relu)(dh2, h2, c2)
-    let (dm1, dk2) = #adjoint(Tensor<Float>.convolved2D)(m1)(seed: dc2, originalValue: c2, filter: θ.k2, strides: strides1, padding: .same)
-    let dh1 = #adjoint(Tensor.maxPooled)(h1)(seed: dm1, originalValue: m1, kernelSize: kernelSize5, strides: strides2, padding: .same)
-    let dc1 = #adjoint(relu)(dh1, h1, c1)
-    let (_, dk1) = #adjoint(Tensor<Float>.convolved2D)(x)(seed: dc1, originalValue: c1, filter: θ.k1, strides: strides1, padding: .same)
-    
-    let dθ = CNNParameters(k1: dk1, k2: dk2, w3: dw3, b3: db3)
-    return (H_total, dθ)
+//
+//    guard returnGradient else { return (H_total, θ) }
+//
+//    // Backpropagation
+//    let dz3 = q - p
+//    let dw3 = flat⊺ • dz3
+//    let db3 = dz3.sum(squeezingAxes: 0)
+//    let dflat = dz3 • θ.w3⊺
+//    let dm2 = pullback(at: m2, in: { $0.reshaped(to: flat.shape) })(dflat)
+//    let dh2 = pullback(at: h2, in: { $0.maxPooled(kernelSize: kernelSize5, strides: strides2, padding: .same) })(dm2)
+//    let dc2 = pullback(at: c2, in: { relu($0) })(dh2)
+//    let (dm1, dk2) = pullback(at: m1, θ.k2, in: { $0.convolved2D(withFilter: $1, strides: strides1, padding: .same) })(dc2)
+//    let dh1 = pullback(at: h1, in: { $0.maxPooled(kernelSize: kernelSize5, strides: strides2, padding: .same) })(dm1)
+//    let dc1 = pullback(at: c1, in: { relu($0) })(dh1)
+//    let dk1 = pullback(at: θ.k1, in: { x.convolved2D(withFilter: $0, strides: strides1, padding: .same) })(dc1)
+//
+//    let dθ = CNNParameters(k1: dk1, k2: dk2, w3: dw3, b3: db3)
+    return (H_total, θ)
 }
 
 /// Starts training on KMNIST
@@ -67,30 +78,30 @@ func startTrainingOnKMNIST() {
     let trainingLabelsFile = dataPath + "kmnist-train-labels.npz"
     let testingImagesFile = dataPath + "kmnist-test-imgs.npz"
     let testingLabelsFile = dataPath + "kmnist-test-labels.npz"
-    
+
     let batchSize = 128
     var θ = CNNParameters()
     let α: Float = 0.001
     let βm: Float = 0.9
     let βv: Float = 0.999
     let ϵ: Float = 1e-08
-    let adam = AdamOptimizer(θ,α,βm,βv,ϵ)
+//    let adam = AdamOptimizer(θ,α,βm,βv,ϵ)
 
     print("Load training data.")
     var trainingDataset = readKMNIST(imagesFile: trainingImagesFile, labelsFile: trainingLabelsFile, batchSize: batchSize)
     print("Load validation data.")
     let testingBatch = readKMNIST(imagesFile: testingImagesFile, labelsFile: testingLabelsFile)[0]
-    
+
     printDividerLine()
     for epochNumber in 0..<256 {
         trainingDataset.shuffle()
         for (batchNumber, batch) in trainingDataset.enumerated() {
             let x = batch.images
             let y_i = batch.labels
-            
+
             let (H_total, dθ) = lossAndGradient(x, y_i, θ)
-            adam.optimize(&θ,dθ)
-            
+//            adam.optimize(&θ,dθ)
+
             if batchNumber % 10 == 0 {
                 printTrainingLoss(epochNumber: epochNumber, batchNumber: batchNumber, H_total: H_total)
             }

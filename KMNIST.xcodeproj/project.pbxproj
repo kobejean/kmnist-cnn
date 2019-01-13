@@ -21,8 +21,8 @@
 		3D8DD37A21BC433500255FBC /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D8DD37921BC433500255FBC /* main.swift */; };
 		3D8DD38921BC46FC00255FBC /* CNNModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D8DD38821BC46FC00255FBC /* CNNModel.swift */; };
 		3D8DD38D21BC49CD00255FBC /* KMNISTDataset.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D8DD38C21BC49CD00255FBC /* KMNISTDataset.swift */; };
-		3DCDA90521BC895B0048EAA3 /* libtensorflow_framework.so in Frameworks */ = {isa = PBXBuildFile; fileRef = 3DCDA90321BC895B0048EAA3 /* libtensorflow_framework.so */; };
-		3DCDA90621BC895B0048EAA3 /* libtensorflow.so in Frameworks */ = {isa = PBXBuildFile; fileRef = 3DCDA90421BC895B0048EAA3 /* libtensorflow.so */; };
+		3DC9555121E9EDA70098F924 /* libtensorflow_framework.so in Frameworks */ = {isa = PBXBuildFile; fileRef = 3DC9554F21E9EDA70098F924 /* libtensorflow_framework.so */; };
+		3DC9555221E9EDA70098F924 /* libtensorflow.so in Frameworks */ = {isa = PBXBuildFile; fileRef = 3DC9555021E9EDA70098F924 /* libtensorflow.so */; };
 		3DCDA90C21BC9D7E0048EAA3 /* TensorInitializers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DCDA90B21BC9D7E0048EAA3 /* TensorInitializers.swift */; };
 /* End PBXBuildFile section */
 
@@ -58,6 +58,8 @@
 		3D8DD37921BC433500255FBC /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		3D8DD38821BC46FC00255FBC /* CNNModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CNNModel.swift; sourceTree = "<group>"; };
 		3D8DD38C21BC49CD00255FBC /* KMNISTDataset.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KMNISTDataset.swift; sourceTree = "<group>"; };
+		3DC9554F21E9EDA70098F924 /* libtensorflow_framework.so */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libtensorflow_framework.so; path = "../../../../../Library/Developer/Toolchains/swift-tensorflow-DEVELOPMENT-2019-01-04-a.xctoolchain/usr/lib/swift/macosx/libtensorflow_framework.so"; sourceTree = "<group>"; };
+		3DC9555021E9EDA70098F924 /* libtensorflow.so */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libtensorflow.so; path = "../../../../../Library/Developer/Toolchains/swift-tensorflow-DEVELOPMENT-2019-01-04-a.xctoolchain/usr/lib/swift/macosx/libtensorflow.so"; sourceTree = "<group>"; };
 		3DCDA90321BC895B0048EAA3 /* libtensorflow_framework.so */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libtensorflow_framework.so; path = "../../../../../Library/Developer/Toolchains/swift-tensorflow-DEVELOPMENT-2018-12-04-a.xctoolchain/usr/lib/swift/macosx/libtensorflow_framework.so"; sourceTree = "<group>"; };
 		3DCDA90421BC895B0048EAA3 /* libtensorflow.so */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libtensorflow.so; path = "../../../../../Library/Developer/Toolchains/swift-tensorflow-DEVELOPMENT-2018-12-04-a.xctoolchain/usr/lib/swift/macosx/libtensorflow.so"; sourceTree = "<group>"; };
 		3DCDA90B21BC9D7E0048EAA3 /* TensorInitializers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TensorInitializers.swift; sourceTree = "<group>"; };
@@ -68,8 +70,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3DCDA90521BC895B0048EAA3 /* libtensorflow_framework.so in Frameworks */,
-				3DCDA90621BC895B0048EAA3 /* libtensorflow.so in Frameworks */,
+				3DC9555121E9EDA70098F924 /* libtensorflow_framework.so in Frameworks */,
+				3DC9555221E9EDA70098F924 /* libtensorflow.so in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -138,6 +140,8 @@
 		3D8DD38021BC44A300255FBC /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				3DC9554F21E9EDA70098F924 /* libtensorflow_framework.so */,
+				3DC9555021E9EDA70098F924 /* libtensorflow.so */,
 				3DCDA90321BC895B0048EAA3 /* libtensorflow_framework.so */,
 				3DCDA90421BC895B0048EAA3 /* libtensorflow.so */,
 			);
